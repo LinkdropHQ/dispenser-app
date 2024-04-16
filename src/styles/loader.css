@@ -1,0 +1,49 @@
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.loader {
+  font-size: 10px;
+  margin: 50px auto;
+  text-indent: -9999em;
+  border-radius: 50%;
+  background: linear-gradient(to right, #0C5EFF 10%, #F7F7FB 82%);
+  position: relative;
+  animation: rotation 1.4s infinite linear;
+  transform: translateZ(0);
+
+  width: 48px;
+  height: 48px;
+}
+
+.loader:before {
+  width: 50%;
+  height: 50%;
+  background: #0C5EFF;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+
+.loader:after {
+  background: #FFF;
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
