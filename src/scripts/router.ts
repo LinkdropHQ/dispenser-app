@@ -33,6 +33,8 @@ const createErrorScreen = (
       titleElement.innerText = 'No links to share'
     case 'qr_not_found':
       titleElement.innerText = 'Asset does not exist'
+    default:
+      titleElement.innerText = 'Something went wrong'
   }
 
   return errorScreen
@@ -50,7 +52,7 @@ const routes = [
         qrSecret,
         qrEncCode,
         (redirectURL) => {
-          // content.innerHTML = ''
+          content.innerHTML = ''
           Router.go(redirectURL)
         }
       )
