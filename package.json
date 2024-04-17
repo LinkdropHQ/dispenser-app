@@ -6,7 +6,7 @@
   "author": "spacehaz <spacehaz@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode development",
     "dev": "webpack serve --mode development"
   },
   "devDependencies": {
