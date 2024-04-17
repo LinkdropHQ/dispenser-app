@@ -98,8 +98,7 @@ const routes = [
 
       content.innerHTML = ''
       // @ts-ignore
-      const templateClone = templateLoading.content.cloneNode(true).querySelector('.loader')
-      return templateClone
+      return document.createElement('div')
     }
   }
 ]
