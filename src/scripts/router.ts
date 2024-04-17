@@ -57,9 +57,7 @@ const routes = [
         }
       )
 
-      // @ts-ignore
-      const templateClone = templateLoading.content.cloneNode(true).querySelector('.loader')
-      return templateClone
+      return document.createElement('div')
     }
   },
   {
@@ -98,7 +96,8 @@ const routes = [
 
       content.innerHTML = ''
       // @ts-ignore
-      return document.createElement('div')
+      const templateClone = templateLoading.content.cloneNode(true).querySelector('.loader')
+      return templateClone
     }
   }
 ]
