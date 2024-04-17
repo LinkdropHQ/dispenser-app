@@ -45,8 +45,8 @@ const routes = [
   {
     pathname: '/mqr/:qrSecret/:qrEncCode',
     element: () => {
+      content.innerHTML = ''
       const location = routeLocation()
-
       const { params: { qrEncCode, qrSecret } }  = location
       computeScanAddress(
         qrSecret,
@@ -65,6 +65,7 @@ const routes = [
   {
     pathname: '/scan/:multiscanQRId/:scanId/:scanIdSig/:multiscanQREncCode',
     element: () => {
+      content.innerHTML = ''
       const location = routeLocation()
       const { params: {
         multiscanQRId,
@@ -85,7 +86,6 @@ const routes = [
           const link = templateClone.querySelector('.redirect__link')
           link.setAttribute('href', location)
           content.append(templateClone)
-          console.log({ location })
         },
         (error) => {
           content.innerHTML = ''
