@@ -29,9 +29,9 @@ export default async function getLinkByMultiQR(
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
-      setTimeout(() => {
+      // setTimeout(() => {
         window.location.href = linkDecrypted
-      }, 1000)
+      // }, 1000)
     }
   } catch (err: any ) {
     alert('Some error occured. Please check console for info!')
