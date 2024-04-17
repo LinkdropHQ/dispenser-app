@@ -15,11 +15,22 @@
   <title>You have received an NFT, click to claim it</title>
 </head>
 <body class="page">
+  <header class="header">
+    <img class="header__logo" src='<%= require("./images/linkdrop.png") %>' alt="Application Logo" />
+  </header>
   <section data-vanilla-route-ele="router-wrap" class="content">
 
   </section>
+
   <template id="loader">
     <div class="loader"></div>
+  </template>
+
+  <template id="error">
+    <div class="error">
+      <img class="error__image" src='<%= require("./images/qr-error.png") %>'>
+      <h2 class="error__title"></h2>
+    </div>
   </template>
   
   <template id="redirect">

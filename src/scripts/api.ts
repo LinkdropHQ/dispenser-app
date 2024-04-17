@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { dashboardServerUrl, devDashboardServerUrl } from '../config'
 const { NODE_ENV = 'production' } = process.env
-console.log({ NODE_ENV })
+
 const serverUrl = NODE_ENV === 'production' ? dashboardServerUrl : devDashboardServerUrl
 const getMultiQRData = (
   multiscanQRId: string,
