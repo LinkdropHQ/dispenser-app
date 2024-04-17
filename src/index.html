@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href='<%= require("./images/favicon.png") %>' />
+  <link rel="apple-touch-icon" href='<%= require("./images/favicon.png") %>'>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta property="og:image" content='<%= require("./images/meta-image.png") %>' />
+  <meta property="image" content='<%= require("./images/meta-image.png") %>' />
+  <meta
+    name="og:title"
+    content="You have received an NFT, click to claim it"
+  />
+  <title>You have received an NFT, click to claim it</title>
 </head>
 <body class="page">
   <section data-vanilla-route-ele="router-wrap" class="content">
