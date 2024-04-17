@@ -51,12 +51,13 @@ const routes = [
           console.log({ location })
         }
       )
+
+      content.innerHTML = ''
       // @ts-ignore
       const templateClone = templateLoading.content.cloneNode(true).querySelector('.loader')
       return templateClone
-
     }
-  },
+  }
 ]
 
 HashRoute(routes)
