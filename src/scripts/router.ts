@@ -16,6 +16,7 @@ const routes = [
         qrSecret,
         qrEncCode,
         (redirectURL) => {
+          // content.innerHTML = ''
           Router.go(redirectURL)
         }
       )
@@ -42,9 +43,10 @@ const routes = [
         scanIdSig,
         multiscanQREncCode,
         (location) => {
-          // @ts-ignore
-          const templateClone = templateRedirect.content.cloneNode(true).querySelector('.redirect')
           content.innerHTML = ''
+
+          // @ts-ignore          
+          const templateClone = templateRedirect.content.cloneNode(true).querySelector('.redirect')
           const link = templateClone.querySelector('.redirect__link')
           link.setAttribute('href', location)
           content.append(templateClone)
