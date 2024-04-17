@@ -31,7 +31,7 @@ export default async function getLinkByMultiQR(
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
       setTimeout(() => {
         window.location.href = linkDecrypted
-      }, 2000)
+      }, 1000)
     }
   } catch (err: any ) {
     alert('Some error occured. Please check console for info!')
