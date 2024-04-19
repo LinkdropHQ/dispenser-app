@@ -4,12 +4,14 @@ import { getMultiQRData } from './api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 import { TError } from './types'
+import { TApi } from './types'
 
 export default async function getLinkByMultiQR(
   multiscanQRId: string,
   scanId: string,
   scanIdSig: string,
   multiscanQREncCode: string,
+  api: TApi,
   linkRedirectCallback?: (location: string) => void,
   errorCallback?: (error_name: TError) => void,
 ) {
@@ -18,6 +20,7 @@ export default async function getLinkByMultiQR(
       multiscanQRId,
       scanId,
       scanIdSig,
+      api
     )
 
     const { encrypted_claim_link, success }: { encrypted_claim_link: string, success: boolean } = data
@@ -43,7 +46,10 @@ export default async function getLinkByMultiQR(
       } else if (err.response?.status === 500) {
         errorCallback('qr_error')
       } else if (err.response?.status === 403) {
+
         const { data } = err.response
+
+        console.log({ data })
         if (data.error.includes("Claim is over.")) {
           errorCallback('qr_campaign_finished')
         } else if (data.error.includes("Claim has not started yet.")) {

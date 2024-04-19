@@ -1,13 +1,14 @@
 
 import { ethers } from 'ethers'
 import { checkIfMultiscanIsPresented } from './helpers'
+import { TApi } from './types'
 
 export default async function computeScanAddress(
   qrSecret: string,
   qrEncCode: string,
+  api: TApi,
   callback: (location: string) => void
 ) {
-  console.log({ qrSecret, qrEncCode })
   try {
     const linkKey = ethers.utils.id(qrSecret)
     const qrKeysPair = new ethers.Wallet(linkKey)
@@ -24,11 +25,11 @@ export default async function computeScanAddress(
         scanID: SCAN_ID,
         scanIDSig: SCAN_ID_SIG
       }))
-      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
+      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?api=${api}`
       callback(redirectURL)
     } else {
       const { scanID: SCAN_ID, scanIDSig: SCAN_ID_SIG } = inLocalStorage
-      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}`
+      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?api=${api}`
       callback(redirectURL)
     }
   } catch (err: any) {
