@@ -33,8 +33,7 @@ export default async function getLinkByMultiQR(
       // }, 1000)
     }
   } catch (err: any ) {
-    alert('Some error occured. Please check console for info!')
-      if (axios.isAxiosError(err)) {
+    if (axios.isAxiosError(err)) {
       if (err.message === 'Network Error') {
         if (!window.navigator.onLine) {
           errorCallback('qr_no_connection')
@@ -49,7 +48,6 @@ export default async function getLinkByMultiQR(
 
         const { data } = err.response
 
-        console.log({ data })
         if (data.error.includes("Claim is over.")) {
           errorCallback('qr_campaign_finished')
         } else if (data.error.includes("Claim has not started yet.")) {
