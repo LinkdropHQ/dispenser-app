@@ -1,30 +1,42 @@
 {
-  "name": "dispenser-app",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/LinkdropHQ/dispenser-app.git",
-  "author": "spacehaz <spacehaz@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve --mode development"
-  },
-  "devDependencies": {
-    "@types/node": "^20.12.7",
-    "@types/webpack": "^5.28.5",
-    "css-loader": "^7.1.1",
-    "html-webpack-plugin": "^5.6.0",
-    "style-loader": "^4.0.0",
-    "ts-loader": "^9.5.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
-  },
+  "name": "dispenser-app-2",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4",
     "axios": "^1.6.8",
     "ethers": "^5.5.1",
-    "vanilla-routing": "^0.0.4",
     "@walletconnect/utils": "2.0.0-beta.100"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
