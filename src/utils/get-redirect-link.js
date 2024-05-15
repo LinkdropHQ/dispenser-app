@@ -4,6 +4,9 @@ import { getMultiQRData } from '../data/api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 
+import { checkIfMultiscanIsPresented } from '../helpers'
+
+
 export default async function getRedirectLink(
   multiscanQRId,
   scanId,
@@ -14,6 +17,13 @@ export default async function getRedirectLink(
   errorCallback,
 ) {
   try {
+    const inLocalStorage = checkIfMultiscanIsPresented(multiscanQRId)
+    if (inLocalStorage) {
+      linkRedirectCallback && linkRedirectCallback(inLocalStorage)
+      window.location.href = inLocalStorage
+      return 
+    }
+
     const { data } = await getMultiQRData(
       multiscanQRId,
       scanId,
@@ -25,10 +35,14 @@ export default async function getRedirectLink(
     if (success && encrypted_claim_link) {
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
+
+      const scans = window.localStorage.getItem('scans')
+      const scansData = scans ? JSON.parse(scans) : {}
+      scansData[multiscanQRId.toLowerCase()] = linkDecrypted
+      window.localStorage.setItem('scans', JSON.stringify(scansData))
+
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
-      // setTimeout(() => {
-        window.location.href = linkDecrypted
-      // }, 1000)
+      window.location.href = linkDecrypted
     }
   } catch (err ) {
     if (axios.isAxiosError(err)) {
