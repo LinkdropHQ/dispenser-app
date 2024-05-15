@@ -1,5 +1,7 @@
 import Loader from './loader'
+import ProgressBar from './progress-bar'
 
 export {
-  Loader
+  Loader,
+  ProgressBar
 }
