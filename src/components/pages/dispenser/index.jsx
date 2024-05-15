@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef } from "react"
-import { useHistory, useLocation, useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { computeScanAddress } from '../../../utils'
 import QRCodeStyling from 'qr-code-styling'
-import { ProgressBar } from '../../common'
+import { ProgressBar, Footer } from '../../common'
 import './styles.css'
 import LinkdropIcon from '../../../images/linkdrop-qr.png'
 
 const INTERVAL_TIME = 10000
 
 const qrCode = new QRCodeStyling({
-  width: 182,
-  height: 182,
+  width: 300,
+  height: 300,
   image: LinkdropIcon, 
   cornersSquareOptions: {
     color: "#0C5EFF",
@@ -98,6 +98,7 @@ const DispenserPage = () => {
       <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
       <h1 className="dispenser__title">Scan to Claim Funds</h1>
       <a href={`/#${link}`} target="_blank">LINK</a>
+      <Footer />
     </div>
   </div>
 }
