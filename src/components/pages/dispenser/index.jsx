@@ -37,7 +37,6 @@ const qrCode = new QRCodeStyling({
 const DispenserPage = () => {
   const { qrEncCode, qrSecret }  = useParams()
   const location = useLocation()
-  const history = useHistory()
 
   const [ link, setLink ] = useState()
   const [ timer, setTimer ] = useState(0)
@@ -98,6 +97,7 @@ const DispenserPage = () => {
       <div className="dispenser__qr" ref={qrRef}></div>
       <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
       <h1 className="dispenser__title">Scan to Claim Funds</h1>
+      <a href={link} target="_blank">LINK</a>
     </div>
   </div>
 }
