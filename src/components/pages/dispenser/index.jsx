@@ -4,14 +4,14 @@ import { computeScanAddress } from '../../../utils'
 import QRCodeStyling from 'qr-code-styling'
 import { ProgressBar, Footer } from '../../common'
 import './styles.css'
-import LinkdropIcon from '../../../images/linkdrop-qr.png'
+import CoinbaseIcon from '../../../images/coinbase-qr.png'
 
 const INTERVAL_TIME = 10000
 
 const qrCode = new QRCodeStyling({
   width: 300,
   height: 300,
-  image: LinkdropIcon, 
+  image: CoinbaseIcon, 
   cornersSquareOptions: {
     color: "#0C5EFF",
     type: 'extra-rounded'
