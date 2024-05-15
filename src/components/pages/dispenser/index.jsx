@@ -97,7 +97,7 @@ const DispenserPage = () => {
       <div className="dispenser__qr" ref={qrRef}></div>
       <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
       <h1 className="dispenser__title">Scan to Claim Funds</h1>
-      <a href={link} target="_blank">LINK</a>
+      <a href={`/#${link}`} target="_blank">LINK</a>
     </div>
   </div>
 }
