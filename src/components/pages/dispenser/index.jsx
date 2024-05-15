@@ -86,9 +86,9 @@ const DispenserPage = () => {
       return
     }
 
-    console.log({ link })
-    
-    qrCode.update({ data: link } );
+    const fullLink = `${window.location.origin}/#${link}`
+    console.log({ fullLink })
+    qrCode.update({ data: fullLink } );
 
   }, [ link ])
 
