@@ -17,6 +17,8 @@ export default async function computeScanAddress(
 
     let redirectURL = ''
 
+    const params = api ? `?api=${api}` : ''
+
     if (!inLocalStorage) {
       const SCAN_ID = String(Math.random()).slice(2)
       
@@ -25,11 +27,11 @@ export default async function computeScanAddress(
         scanID: SCAN_ID,
         scanIDSig: SCAN_ID_SIG
       }))
-      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?api=${api}`
+      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}${params}`
       callback(redirectURL)
     } else {
       const { scanID: SCAN_ID, scanIDSig: SCAN_ID_SIG } = inLocalStorage
-      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?api=${api}`
+      redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}${params}`
       callback(redirectURL)
     }
   } catch (err: any) {
