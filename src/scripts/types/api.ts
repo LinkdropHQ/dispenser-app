@@ -1,3 +1,3 @@
-type TApi = 'mainnets' | 'testnets' | 'dev'
+type TApi = '' | 'testnets' | 'dev'
 
 export default TApi

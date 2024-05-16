@@ -8,7 +8,6 @@ const templateError = document.getElementById("error")
 const content = document.querySelector(".content")
 
 
-
 const createErrorScreen = (
   error: TError
 ) => {
@@ -62,7 +61,7 @@ const routes = [
       computeScanAddress(
         qrSecret,
         qrEncCode,
-        (location.search.api as TApi) || 'dev',
+        (location.search.api as TApi) || '',
         (redirectURL) => {
           content.innerHTML = ''
           Router.go(redirectURL)
@@ -89,7 +88,7 @@ const routes = [
         scanId,
         scanIdSig,
         multiscanQREncCode,
-        (location.search.api as TApi) || 'dev',
+        (location.search.api as TApi) || '',
         (location) => {
           content.innerHTML = ''
           // @ts-ignore          
