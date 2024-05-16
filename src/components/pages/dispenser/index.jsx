@@ -5,8 +5,9 @@ import QRCodeStyling from 'qr-code-styling'
 import { ProgressBar, Footer } from '../../common'
 import './styles.css'
 import CoinbaseIcon from '../../../images/coinbase-qr.png'
+import classname from "classname"
 
-const INTERVAL_TIME = 10000
+const INTERVAL_TIME = 15000
 
 const qrCode = new QRCodeStyling({
   width: 300,
@@ -40,6 +41,7 @@ const DispenserPage = () => {
 
   const [ link, setLink ] = useState()
   const [ timer, setTimer ] = useState(0)
+  const [ fade, setFade ] = useState(false)
 
   const qrRef = useRef(null)
   useEffect(() => {
@@ -77,27 +79,39 @@ const DispenserPage = () => {
     }, 1000)
 
     return () => clearTimeout(timeOut)
-
-    
   }, [timer])
 
   useEffect(() => {
     if (!link) {
       return
     }
+    
+    if (!qrRef.current) {
+      return
+    }
 
+    setFade(true)
     const fullLink = `${window.location.origin}/#${link}`
-    console.log({ fullLink })
-    qrCode.update({ data: fullLink } );
 
+    setTimeout(() => {
+      qrCode.update({ data: fullLink } );
+      setFade(false)
+    }, 1000)
+    
   }, [ link ])
 
   return <div className='dispenser'>
     <div className="dispenser__content">
-      <div className="dispenser__qr" ref={qrRef}></div>
+      <div
+        ref={qrRef}
+        className={
+          classname("dispenser__qr", {
+            ['dispenser__qr_fade']: fade
+          })
+        }
+      ></div>
       <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
       <h1 className="dispenser__title">Scan to Claim Funds</h1>
-      <a href={`/#${link}`} target="_blank">LINK</a>
       <Footer />
     </div>
   </div>

@@ -7,28 +7,25 @@
 }
 
 .dispenser__content {
-    /* Frame 1547765801 */
-
-  /* Auto layout */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 96px 32px 32px;
   gap: 32px;
-
-
   width: 452px;
   height: auto;
-
-  /* Surface [day] */
   background: #FFFFFF;
-  /* L1 - Card [day] */
   box-shadow: 0px 2px 4px rgba(40, 41, 61, 0.04), 0px 8px 16px rgba(96, 97, 112, 0.16);
   border-radius: 24px;
 }
 
 .dispenser__qr {
+  opacity: 1;
+  transition: opacity 1s
+}
 
+.dispenser__qr_fade {
+  opacity: 0;
 }
 
 .dispenser__title {
