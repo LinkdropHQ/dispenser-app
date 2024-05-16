@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom"
 import { computeScanAddress } from '../../../utils'
 import QRCodeStyling from 'qr-code-styling'
 import { ProgressBar, Footer } from '../../common'
+import { defineApiParam } from '../../../helpers'
 import './styles.css'
 import CoinbaseIcon from '../../../images/coinbase-qr.png'
 import classname from "classname"
@@ -44,13 +45,14 @@ const DispenserPage = () => {
   const [ fade, setFade ] = useState(false)
 
   const qrRef = useRef(null)
+
   useEffect(() => {
 
     const createScan  = () => {
       computeScanAddress(
         qrSecret,
         qrEncCode,
-        (location.search.api) || 'dev',
+        defineApiParam(location.search),
         (redirectURL) => {
           // history.push(redirectURL)
           setLink(redirectURL)
@@ -92,6 +94,7 @@ const DispenserPage = () => {
 
     setFade(true)
     const fullLink = `${window.location.origin}/#${link}`
+    console.log({ fullLink })
 
     setTimeout(() => {
       qrCode.update({ data: fullLink } );

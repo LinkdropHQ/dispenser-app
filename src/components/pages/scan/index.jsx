@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { getRedirectLink } from '../../../utils'
 import { RedirectPage, ErrorPage, LoaderPage } from './components'
+import { defineApiParam } from '../../../helpers'
 
 const defineErrorScreenTitle = (error) => {
   switch (error) {
@@ -40,13 +41,14 @@ const ScanPage = () => {
     multiscanQREncCode
   }= useParams()
 
+
   useEffect(() => {
     getRedirectLink(
       multiscanQRId,
       scanId,
       scanIdSig,
       multiscanQREncCode,
-      (location.search.api) || 'dev',
+      defineApiParam(location.search),
       (location) => {
         setRedirectLink(location)
         setPage('redirect')

@@ -6,13 +6,12 @@ import {
 
 const defineApiURL = (apiType) => {
   switch (apiType) {
-    case 'mainnets':
-      return dashboardServerUrl
+    case 'dev':
+      return devDashboardServerUrl
     case 'testnets':
       return testnetsDashboardServerUrl
-    case 'dev':
     default:
-      return devDashboardServerUrl
+      return dashboardServerUrl
   }
 }
 

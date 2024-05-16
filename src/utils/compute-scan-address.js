@@ -20,7 +20,7 @@ export default async function computeScanAddress(
       scanID: SCAN_ID,
       scanIDSig: SCAN_ID_SIG
     }))
-    redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?api=${api}`
+    redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}${api ? `?api=${api}` : ''}`
     callback(redirectURL)
   } catch (err) {
     alert('Some error occured. Please check console for info!')
