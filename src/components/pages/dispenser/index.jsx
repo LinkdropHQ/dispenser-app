@@ -7,6 +7,7 @@ import { defineApiParam } from '../../../helpers'
 import './styles.css'
 import CoinbaseIcon from '../../../images/coinbase-qr.png'
 import classname from "classname"
+import { io, Socket } from "socket.io-client"
 
 const INTERVAL_TIME = 15000
 
@@ -46,6 +47,8 @@ const DispenserPage = () => {
   const [ link, setLink ] = useState()
   const [ timer, setTimer ] = useState(0)
   const [ fade, setFade ] = useState(false)
+  const [ socketObject, setSocketObject ] = useState(null)
+  const [ socketLastScan, setSocketLastScan ] = useState(null)
 
   const qrRef = useRef(null)
 
@@ -75,10 +78,26 @@ const DispenserPage = () => {
     const interval = setInterval(createScan, INTERVAL_TIME)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [socketLastScan])
 
   useEffect(() => {
     qrCode.append(qrRef.current);
+  }, [])
+
+  useEffect(() => {
+    const socket = io("http://localhost:3001", {
+      reconnectionDelayMax: 10000
+    })
+
+    socket.on("connect", () => {
+      console.log(socket.id);
+    })
+
+    socket.on("successful_scan", () => {
+      setSocketLastScan(+new Date())
+    })
+
+    setSocketObject(socket)
   }, [])
 
   useEffect(() => {
