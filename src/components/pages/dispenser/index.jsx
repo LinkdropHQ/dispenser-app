@@ -38,6 +38,9 @@ const qrCode = new QRCodeStyling({
 
 const DispenserPage = () => {
   const { qrEncCode, qrSecret }  = useParams()
+  let qrEncCodeInitial = qrEncCode
+  let qrSecretInitial = qrSecret
+
   const location = useLocation()
 
   const [ link, setLink ] = useState()
@@ -47,11 +50,18 @@ const DispenserPage = () => {
   const qrRef = useRef(null)
 
   useEffect(() => {
+    window.history.pushState({}, "", '/')
+  }, [])
 
+  useEffect(() => {
     const createScan  = () => {
+      console.log({
+        qrSecretInitial,
+        qrEncCodeInitial
+      })
       computeScanAddress(
-        qrSecret,
-        qrEncCode,
+        qrSecretInitial,
+        qrEncCodeInitial,
         defineApiParam(location.search),
         (redirectURL) => {
           // history.push(redirectURL)
@@ -59,7 +69,7 @@ const DispenserPage = () => {
           setTimer(INTERVAL_TIME)
         }
       )
-      }
+    }
 
     createScan()
     const interval = setInterval(createScan, INTERVAL_TIME)
@@ -94,7 +104,6 @@ const DispenserPage = () => {
 
     setFade(true)
     const fullLink = `${window.location.origin}/#${link}`
-    console.log({ fullLink })
 
     setTimeout(() => {
       qrCode.update({ data: fullLink } );

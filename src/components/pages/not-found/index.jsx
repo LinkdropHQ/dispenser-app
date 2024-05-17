@@ -1,5 +1,10 @@
+import { useEffect } from "react"
+
 const NotFound = () => {
-  return <h1>NOT FOUND PAGE</h1>
+  useEffect(() => {
+    alert('PLEASE USE DYNAMIC DISPENSER LINK FROM DASHBOARD')
+  }, [])
+  return null
 }
 
 export default NotFound
