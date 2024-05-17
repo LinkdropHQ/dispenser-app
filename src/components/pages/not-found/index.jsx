@@ -1,10 +1,8 @@
-import { useEffect } from "react"
+import { ErrorPage } from '../common'
+const ERROR_TEXT = 'Please use dynamic dispenser URL from the Dashboard'
 
 const NotFound = () => {
-  useEffect(() => {
-    alert('PLEASE USE DYNAMIC DISPENSER LINK FROM DASHBOARD')
-  }, [])
-  return null
+  return <ErrorPage title={ERROR_TEXT} />
 }
 
 export default NotFound
