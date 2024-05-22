@@ -30,7 +30,8 @@ export default async function getRedirectLink(
       multiscanQRId,
       scanId,
       scanIdSig,
-      api
+      api,
+      socketId
     )
 
     const { encrypted_claim_link, success } = data
