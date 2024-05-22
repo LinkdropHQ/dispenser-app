@@ -58,6 +58,26 @@ const DispenserPage = () => {
   }, [])
 
   useEffect(() => {
+    console.log({ REACT_APP_SOCKET_URL })
+    const socket = io(REACT_APP_SOCKET_URL, {
+      reconnectionDelayMax: 10000
+    })
+    console.log({ socket })
+
+    socket.on("connect", () => {
+      console.log(socket.id);
+    })
+
+    socket.on("successful_scan", (socketId) => {
+      if (socketObject && socketId === socketObject.id) {
+        setSocketLastScan(+new Date())
+      }
+    })
+
+    setSocketObject(socket)
+  }, [])
+
+  useEffect(() => {
     const createScan  = () => {
       computeScanAddress(
         qrSecretInitial,
@@ -80,24 +100,6 @@ const DispenserPage = () => {
 
   useEffect(() => {
     qrCode.append(qrRef.current);
-  }, [])
-
-  useEffect(() => {
-    const socket = io(REACT_APP_SOCKET_URL, {
-      reconnectionDelayMax: 10000
-    })
-
-    socket.on("connect", () => {
-      console.log(socket.id);
-    })
-
-    socket.on("successful_scan", (socketId) => {
-      if (socketObject && socketId === socketObject.id) {
-        setSocketLastScan(+new Date())
-      }
-    })
-
-    setSocketObject(socket)
   }, [])
 
   useEffect(() => {
