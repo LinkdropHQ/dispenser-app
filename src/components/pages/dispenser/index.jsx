@@ -79,8 +79,8 @@ const DispenserPage = () => {
   }, [])
 
   useEffect(() => {
+    if (!socketObject) { return }
     const createScan  = () => {
-      console.log({ socketObject })
       computeScanAddress(
         qrSecretInitial,
         qrEncCodeInitial,
@@ -98,7 +98,7 @@ const DispenserPage = () => {
     const interval = setInterval(createScan, INTERVAL_TIME)
 
     return () => clearInterval(interval)
-  }, [socketLastScan])
+  }, [socketLastScan, socketObject])
 
   useEffect(() => {
     qrCode.append(qrRef.current);
