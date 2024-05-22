@@ -8,8 +8,9 @@ import './styles.css'
 import CoinbaseIcon from '../../../images/coinbase-qr.png'
 import classname from "classname"
 import { io, Socket } from "socket.io-client"
+const { REACT_APP_SOCKET_URL } = process.env
 
-const INTERVAL_TIME = 15000
+const INTERVAL_TIME = 100000
 
 const qrCode = new QRCodeStyling({
   width: 300,
@@ -58,14 +59,11 @@ const DispenserPage = () => {
 
   useEffect(() => {
     const createScan  = () => {
-      console.log({
-        qrSecretInitial,
-        qrEncCodeInitial
-      })
       computeScanAddress(
         qrSecretInitial,
         qrEncCodeInitial,
         defineApiParam(location.search),
+        socketObject ? socketObject.id : null,
         (redirectURL) => {
           // history.push(redirectURL)
           setLink(redirectURL)
@@ -85,7 +83,7 @@ const DispenserPage = () => {
   }, [])
 
   useEffect(() => {
-    const socket = io("http://localhost:3001", {
+    const socket = io(REACT_APP_SOCKET_URL, {
       reconnectionDelayMax: 10000
     })
 
@@ -93,8 +91,10 @@ const DispenserPage = () => {
       console.log(socket.id);
     })
 
-    socket.on("successful_scan", () => {
-      setSocketLastScan(+new Date())
+    socket.on("successful_scan", (socketId) => {
+      if (socketObject && socketId === socketObject.id) {
+        setSocketLastScan(+new Date())
+      }
     })
 
     setSocketObject(socket)
@@ -123,7 +123,7 @@ const DispenserPage = () => {
 
     setFade(true)
     const fullLink = `${window.location.origin}/#${link}`
-
+    console.log({ fullLink })
     setTimeout(() => {
       qrCode.update({ data: fullLink } );
       setFade(false)

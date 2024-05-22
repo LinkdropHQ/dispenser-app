@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { getRedirectLink } from '../../../utils'
 import { RedirectPage, LoaderPage } from './components'
-import { defineApiParam } from '../../../helpers'
+import { defineApiParam, defineSocketIdParam } from '../../../helpers'
 import { ErrorPage } from '../common'
 
 const defineErrorScreenTitle = (error) => {
@@ -50,6 +50,7 @@ const ScanPage = () => {
       scanIdSig,
       multiscanQREncCode,
       defineApiParam(location.search),
+      defineSocketIdParam(location.search),
       (location) => {
         setRedirectLink(location)
         setPage('redirect')

@@ -13,6 +13,7 @@ export default async function getRedirectLink(
   scanIdSig,
   multiscanQREncCode,
   api,
+  socketId, 
   linkRedirectCallback,
   errorCallback,
 ) {
@@ -24,6 +25,7 @@ export default async function getRedirectLink(
       return 
     }
 
+    
     const { data } = await getMultiQRData(
       multiscanQRId,
       scanId,
