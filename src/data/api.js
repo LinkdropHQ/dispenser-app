@@ -1,15 +1,19 @@
 import axios from 'axios'
-import { defineApiURL  } from '../helpers'
+import { createQueryString, defineApiURL  } from '../helpers'
 
 const getMultiQRData = (
   multiscanQRId,
   scanId,
   scanIdSig,
-  api
+  api,
+  socketId
 ) => {
   const serverUrl = defineApiURL(api)
+  const queryParams = createQueryString({
+    socket_id: socketId
+  })
 
-  return axios.post(`${serverUrl}/api/v2/dashboard/dispensers/pop/multiscan-qrs/${multiscanQRId}`, {
+  return axios.post(`${serverUrl}/api/v2/dashboard/dispensers/pop/multiscan-qrs/${multiscanQRId}?${queryParams}`, {
     scan_id: scanId,
     scan_id_sig: scanIdSig
   })
