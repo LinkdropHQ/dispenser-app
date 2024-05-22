@@ -10,7 +10,7 @@ import classname from "classname"
 import { io, Socket } from "socket.io-client"
 const { REACT_APP_SOCKET_URL } = process.env
 
-const INTERVAL_TIME = 100000
+const INTERVAL_TIME = 15000
 
 const qrCode = new QRCodeStyling({
   width: 300,
