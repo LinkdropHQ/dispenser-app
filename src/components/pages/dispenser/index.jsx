@@ -13,8 +13,8 @@ const { REACT_APP_SOCKET_URL } = process.env
 const INTERVAL_TIME = 15000
 
 const qrCode = new QRCodeStyling({
-  width: 300,
-  height: 300,
+  width: 350,
+  height: 350,
   image: CoinbaseIcon, 
   cornersSquareOptions: {
     color: "#0C5EFF",
@@ -62,21 +62,23 @@ const DispenserPage = () => {
     const socket = io(REACT_APP_SOCKET_URL, {
       reconnectionDelayMax: 10000
     })
-    console.log({ socket })
 
-    socket.on("connect", () => {
-      console.log(socket.id);
+    setSocketObject(socket)
+  }, [])
+
+  useEffect(() => {
+    if (!socketObject) { return }
+    socketObject.on("connect", () => {
+      console.log(socketObject.id)
     })
 
-    socket.on("successful_scan", (socketId) => {
+    socketObject.on("successful_scan", (socketId) => {
       console.log({ socketId })
       if (socketObject && socketId === socketObject.id) {
         setSocketLastScan(+new Date())
       }
     })
-
-    setSocketObject(socket)
-  }, [])
+  }, [socketObject])
 
   useEffect(() => {
     if (!socketObject) { return }
