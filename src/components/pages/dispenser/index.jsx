@@ -69,6 +69,7 @@ const DispenserPage = () => {
     })
 
     socket.on("successful_scan", (socketId) => {
+      console.log({ socketId })
       if (socketObject && socketId === socketObject.id) {
         setSocketLastScan(+new Date())
       }
@@ -79,6 +80,7 @@ const DispenserPage = () => {
 
   useEffect(() => {
     const createScan  = () => {
+      console.log({ socketObject })
       computeScanAddress(
         qrSecretInitial,
         qrEncCodeInitial,
