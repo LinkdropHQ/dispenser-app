@@ -58,9 +58,11 @@ const DispenserPage = () => {
   }, [])
 
   useEffect(() => {
+    console.log({ REACT_APP_SOCKET_URL })
     const socket = io(REACT_APP_SOCKET_URL, {
       reconnectionDelayMax: 10000
     })
+    console.log({ socket })
 
     socket.on("connect", () => {
       console.log(socket.id);
