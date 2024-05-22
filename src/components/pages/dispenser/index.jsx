@@ -13,8 +13,8 @@ const { REACT_APP_SOCKET_URL } = process.env
 const INTERVAL_TIME = 15000
 
 const qrCode = new QRCodeStyling({
-  width: 300,
-  height: 300,
+  width: 350,
+  height: 350,
   image: CoinbaseIcon, 
   cornersSquareOptions: {
     color: "#0C5EFF",
