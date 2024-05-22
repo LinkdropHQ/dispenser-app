@@ -1,10 +1,12 @@
 
 import { ethers } from 'ethers'
+import { createQueryString } from '../helpers'
 
 export default async function computeScanAddress(
   qrSecret,
   qrEncCode,
   api,
+  socketId,
   callback
 ) {
   try {
@@ -20,7 +22,10 @@ export default async function computeScanAddress(
       scanID: SCAN_ID,
       scanIDSig: SCAN_ID_SIG
     }))
-    redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}${api ? `?api=${api}` : ''}`
+    const queryParams = createQueryString({
+      api, socket_id: socketId 
+    })
+    redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?${queryParams}`
     callback(redirectURL)
   } catch (err) {
     alert('Some error occured. Please check console for info!')
