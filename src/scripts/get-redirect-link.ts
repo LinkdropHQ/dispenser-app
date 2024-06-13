@@ -1,10 +1,14 @@
 
 import { ethers } from 'ethers'
-import { getMultiQRData } from './api'
+import {
+  getMultiQRData,
+  getMultiQRCampaignData
+} from './api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 import { TError } from './types'
 import { TApi } from './types'
+import { customClaimApps } from '../config'
 
 export default async function getLinkByMultiQR(
   multiscanQRId: string,
@@ -16,6 +20,16 @@ export default async function getLinkByMultiQR(
   errorCallback?: (error_name: TError) => void,
 ) {
   try {
+    let customDomain
+    const { data: campaignData } = await getMultiQRCampaignData(
+      multiscanQRId,
+      api
+    )
+
+    const { campaign } = campaignData
+    const campaignNumber = campaign.campaign_number
+    const campaignConfig = customClaimApps[campaignNumber]
+    customDomain = campaignConfig
     const { data } = await getMultiQRData(
       multiscanQRId,
       scanId,
@@ -27,10 +41,14 @@ export default async function getLinkByMultiQR(
     if (success && encrypted_claim_link) {
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
+      if (customDomain) {
+        const finalLink = `${customDomain}/${(new URL(linkDecrypted)).hash}`
+        linkRedirectCallback && linkRedirectCallback(finalLink)
+        window.location.href = finalLink
+        return
+      }
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
-      // setTimeout(() => {
-        window.location.href = linkDecrypted
-      // }, 1000)
+      window.location.href = linkDecrypted
     }
   } catch (err: any ) {
     if (axios.isAxiosError(err)) {

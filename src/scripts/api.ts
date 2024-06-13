@@ -16,6 +16,16 @@ const getMultiQRData = (
   })
 }
 
-export {
-  getMultiQRData
+const getMultiQRCampaignData = (
+  multiscanQRId: string,
+  api: TApi
+) => {
+  const serverUrl = defineApiURL(api)
+  return axios.get(`${serverUrl}/api/v2/dashboard/dispensers/multiscan-qrs/${multiscanQRId}/campaign`)
 }
+
+export {
+  getMultiQRData,
+  getMultiQRCampaignData
+}
+
