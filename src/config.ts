@@ -6,5 +6,6 @@ type TCustomClaimApps = Record<string, string>
 
 export const customClaimApps: TCustomClaimApps = {
   "1718246192965": "https://iloveyou.linkdrop.io",
-  "1718279294042": "https://iloveyou.linkdrop.io"
+  "1718279294042": "https://iloveyou.linkdrop.io",
+  "1718345206832": "https://iloveyou.linkdrop.io"
 }
