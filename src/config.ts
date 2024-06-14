@@ -16,5 +16,5 @@ export const customClaimApps: TCustomClaimApps = {
 export const customClaimAppsForToken: TCustomClaimApps = {
   "0x849151d7d0bf1f34b70d5cad5149d28cc2308bf1": "https://iloveyou.linkdrop.io",
   "0xfc446a839690158933a039477fff44ec45628f01": "https://iloveyou.linkdrop.io",
-   "0xB019A71e796Db085bbF7FAdb5a95db7a2aE2A3C2": "https://iloveyou.linkdrop.io"
+   "0xb019a71e796db085bbf7fadb5a95db7a2ae2a3c2": "https://iloveyou.linkdrop.io"
 }
