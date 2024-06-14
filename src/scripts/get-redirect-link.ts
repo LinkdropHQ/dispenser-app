@@ -8,7 +8,7 @@ import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 import { TError } from './types'
 import { TApi } from './types'
-import { customClaimApps } from '../config'
+import { customClaimApps, customClaimAppsForToken } from '../config'
 
 export default async function getLinkByMultiQR(
   multiscanQRId: string,
@@ -27,9 +27,11 @@ export default async function getLinkByMultiQR(
     )
 
     const { campaign } = campaignData
-    const campaignNumber = campaign.campaign_number
-    const campaignConfig = customClaimApps[campaignNumber]
+
+    const tokenAddress = campaign.token_address
+    const campaignConfig = customClaimAppsForToken[tokenAddress.toLowerCase()]
     customDomain = campaignConfig
+
     const { data } = await getMultiQRData(
       multiscanQRId,
       scanId,
