@@ -9,7 +9,8 @@ export const customClaimApps: TCustomClaimApps = {
   "1718279294042": "https://iloveyou.linkdrop.io",
   "1718345206832": "https://iloveyou.linkdrop.io",
   "1718374317423": "https://iloveyou.linkdrop.io",
-  "1718376400824": "https://iloveyou.linkdrop.io"
+  "1718376400824": "https://iloveyou.linkdrop.io", 
+  "1718394506531": "https://iloveyou.linkdrop.io"
 }
 
 export const customClaimAppsForToken: TCustomClaimApps = {
