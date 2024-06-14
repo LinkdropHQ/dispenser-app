@@ -41,11 +41,23 @@ export default async function getLinkByMultiQR(
     if (success && encrypted_claim_link) {
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
+      console.log({ linkDecrypted, encrypted_claim_link })
+
       if (customDomain) {
-        const finalLink = `${customDomain}/${(new URL(linkDecrypted)).hash}`
-        linkRedirectCallback && linkRedirectCallback(finalLink)
-        window.location.href = finalLink
-        return
+        if (linkDecrypted.includes('https://wallet.coinbase.com')) {
+          const originalLink = new URL(linkDecrypted)
+          const linkParams = originalLink.searchParams
+          const code = linkParams.get('k')
+          const finalLink = `${customDomain}/#/redeem/${code}`
+          linkRedirectCallback && linkRedirectCallback(finalLink)
+          window.location.href = finalLink
+          return
+        } else {
+          const finalLink = `${customDomain}/${(new URL(linkDecrypted)).hash}`
+          linkRedirectCallback && linkRedirectCallback(finalLink)
+          window.location.href = finalLink
+          return
+        }
       }
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
       window.location.href = linkDecrypted
