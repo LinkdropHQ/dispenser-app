@@ -148,7 +148,7 @@ const DispenserPage = () => {
         }
       ></div>
       <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
-      <h1 className="dispenser__title">Scan to Claim Funds</h1>
+      <h1 className="dispenser__title">Scan to Claim</h1>
       <Footer />
     </div>
   </div>
