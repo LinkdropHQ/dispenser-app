@@ -24,7 +24,7 @@ const getDispenserData = (
   api
 ) => {
   const serverUrl = defineApiURL(api)
-  return axios.get(`${serverUrl}/api/v2/dashboard/dispensers/${multiscanQRId}`)
+  return axios.get(`${serverUrl}/api/v2/dashboard/dispensers/multiscan-qrs/${multiscanQRId}/settings`)
 }
 
 export {
