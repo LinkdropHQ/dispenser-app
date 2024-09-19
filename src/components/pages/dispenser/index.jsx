@@ -129,7 +129,6 @@ const DispenserPage = () => {
 
     setFade(true)
     const fullLink = `${window.location.origin}/#${link}`
-    console.log({ fullLink })
     setTimeout(() => {
       qrCode.update({ data: fullLink } );
       setFade(false)
@@ -148,7 +147,7 @@ const DispenserPage = () => {
         }
       ></div>
       <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
-      <h1 className="dispenser__title">Scan to Claim</h1>
+      <h1 className="dispenser__title">{window.appTitle || 'Scan to Claim'}</h1>
       <Footer />
     </div>
   </div>

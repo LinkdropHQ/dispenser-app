@@ -1,6 +1,6 @@
 
 import { ethers } from 'ethers'
-import { getMultiQRData } from '../data/api'
+import { getDispenserLink } from '../data/api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 
@@ -26,7 +26,7 @@ export default async function getRedirectLink(
     }
 
     
-    const { data } = await getMultiQRData(
+    const { data } = await getDispenserLink(
       multiscanQRId,
       scanId,
       scanIdSig,
