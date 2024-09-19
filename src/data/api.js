@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { createQueryString, defineApiURL  } from '../helpers'
 
-const getMultiQRData = (
+const getDispenserLink = (
   multiscanQRId,
   scanId,
   scanIdSig,
@@ -19,6 +19,15 @@ const getMultiQRData = (
   })
 }
 
+const getDispenserData = (
+  multiscanQRId,
+  api
+) => {
+  const serverUrl = defineApiURL(api)
+  return axios.get(`${serverUrl}/api/v2/dashboard/dispensers/${multiscanQRId}`)
+}
+
 export {
-  getMultiQRData
+  getDispenserLink,
+  getDispenserData
 }
