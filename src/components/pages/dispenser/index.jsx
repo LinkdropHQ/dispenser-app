@@ -58,7 +58,7 @@ const DispenserPage = () => {
   const { qrEncCode, qrSecret }  = useParams()
 
   const query = useQuery()
-  const minimal = Boolean(query.get('minimal'))
+  const minimize = Boolean(query.get('minimize'))
   const client = query.get('client')
 
   let qrEncCodeInitial = qrEncCode
@@ -159,7 +159,7 @@ const DispenserPage = () => {
     
   }, [ link ])
 
-  if (minimal) {
+  if (minimize) {
     return <div
       ref={qrRef}
       className={

@@ -23,6 +23,10 @@
   opacity: 1;
   transition: opacity 1s;
   min-height: 304px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .qr-code_fade {
