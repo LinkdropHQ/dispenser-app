@@ -9,27 +9,35 @@ import { computeScanAddress } from '../../../utils'
 import QRCodeStyling from 'qr-code-styling'
 import { useQuery } from '../../../hooks'
 import { ProgressBar, Footer } from '../../common'
-import { defineApiParam } from '../../../helpers'
+import {
+  defineApiParam,
+  isIframe
+} from '../../../helpers'
 import './styles.css'
 import LinkdropIcon from '../../../images/linkdrop-qr.png'
 import CoinbaseIcon from '../../../images/coinbase-qr.png'
 import classname from "classname"
 import { io } from "socket.io-client"
+
+const isInIframe = isIframe()
 const { REACT_APP_SOCKET_URL } = process.env
 
 const INTERVAL_TIME = 5000
 
 const defineQrOptions = (
-  client
+  client,
+  qrWidth
 ) => {
   let qrIcon = LinkdropIcon
   if (client === 'coinbase') {
     qrIcon = CoinbaseIcon
   }
 
+  const size =  qrWidth && qrWidth <= 350 ? qrWidth : 350
+
   return new QRCodeStyling({
-    width: 350,
-    height: 350,
+    width: size,
+    height: size,
     image: qrIcon, 
     cornersSquareOptions: {
       color: "#0C5EFF",
@@ -58,7 +66,6 @@ const DispenserPage = () => {
   const { qrEncCode, qrSecret }  = useParams()
 
   const query = useQuery()
-  const minimize = Boolean(query.get('minimize'))
   const client = query.get('client')
 
   let qrEncCodeInitial = qrEncCode
@@ -74,7 +81,7 @@ const DispenserPage = () => {
 
   const qrRef = useRef(null)
 
-  const qrCode = useMemo(() => defineQrOptions(client), client)
+  const qrCode = useMemo(() => defineQrOptions(client, window.innerWidth), client)
 
   useEffect(() => {
     window.history.pushState({}, "", '/')
@@ -159,15 +166,20 @@ const DispenserPage = () => {
     
   }, [ link ])
 
-  if (minimize) {
-    return <div
-      ref={qrRef}
-      className={
-        classname("qr-code", {
-          ['qr-code_fade']: fade
-        })
-      }
-    ></div>
+  if (isInIframe) {
+    return <div className="dispenser-iframe">
+      <div
+        ref={qrRef}
+        className={
+          classname("qr-code", {
+            ['qr-code_fade']: fade
+          })
+        }
+      ></div>
+      <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
+      <h1 className="dispenser__title">{window.appTitle || 'Scan to Claim'}</h1>
+      <Footer />
+    </div>
   }
 
   return <div className='dispenser'>
