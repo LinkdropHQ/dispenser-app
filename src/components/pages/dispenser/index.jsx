@@ -1,45 +1,73 @@
-import { useEffect, useState, useRef } from "react"
+import {
+  useEffect,
+  useState,
+  useRef,
+  useMemo
+} from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { computeScanAddress } from '../../../utils'
 import QRCodeStyling from 'qr-code-styling'
+import { useQuery } from '../../../hooks'
 import { ProgressBar, Footer } from '../../common'
-import { defineApiParam } from '../../../helpers'
+import {
+  defineApiParam,
+  isIframe
+} from '../../../helpers'
 import './styles.css'
+import LinkdropIcon from '../../../images/linkdrop-qr.png'
 import CoinbaseIcon from '../../../images/coinbase-qr.png'
 import classname from "classname"
-import { io, Socket } from "socket.io-client"
+import { io } from "socket.io-client"
+
+const isInIframe = isIframe()
 const { REACT_APP_SOCKET_URL } = process.env
 
-const INTERVAL_TIME = 15000
+const INTERVAL_TIME = 5000
 
-const qrCode = new QRCodeStyling({
-  width: 350,
-  height: 350,
-  image: CoinbaseIcon, 
-  cornersSquareOptions: {
-    color: "#0C5EFF",
-    type: 'extra-rounded'
-  },
-  cornersDotOptions: {
-    color: "#0C5EFF",
-    type: 'square'
-  },
-  dotsOptions: {
-    color: "#9D9D9D",
-    type: "dots"
-  },
-  backgroundOptions: {
-    color: "#FFF"
-  },
-  imageOptions: {
-    margin: 5,
-    imageSize: 0.5,
-    crossOrigin: 'anonymous',
+const defineQrOptions = (
+  client,
+  qrWidth
+) => {
+  let qrIcon = LinkdropIcon
+  if (client === 'coinbase') {
+    qrIcon = CoinbaseIcon
   }
-});
+
+  const size =  qrWidth && qrWidth <= 350 ? qrWidth : 350
+
+  return new QRCodeStyling({
+    width: size,
+    height: size,
+    image: qrIcon, 
+    cornersSquareOptions: {
+      color: "#0C5EFF",
+      type: 'extra-rounded'
+    },
+    cornersDotOptions: {
+      color: "#0C5EFF",
+      type: 'square'
+    },
+    dotsOptions: {
+      color: "#9D9D9D",
+      type: "dots"
+    },
+    backgroundOptions: {
+      color: "#FFF"
+    },
+    imageOptions: {
+      margin: 5,
+      imageSize: 0.5,
+      crossOrigin: 'anonymous',
+    }
+  })
+}
 
 const DispenserPage = () => {
   const { qrEncCode, qrSecret }  = useParams()
+
+  const query = useQuery()
+  const client = query.get('client')
+
   let qrEncCodeInitial = qrEncCode
   let qrSecretInitial = qrSecret
 
@@ -52,6 +80,8 @@ const DispenserPage = () => {
   const [ socketLastScan, setSocketLastScan ] = useState(null)
 
   const qrRef = useRef(null)
+
+  const qrCode = useMemo(() => defineQrOptions(client, window.innerWidth), client)
 
   useEffect(() => {
     window.history.pushState({}, "", '/')
@@ -104,7 +134,7 @@ const DispenserPage = () => {
 
   useEffect(() => {
     qrCode.append(qrRef.current);
-  }, [])
+  }, [qrCode])
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -130,19 +160,35 @@ const DispenserPage = () => {
     setFade(true)
     const fullLink = `${window.location.origin}/#${link}`
     setTimeout(() => {
-      qrCode.update({ data: fullLink } );
+      qrCode.update({ data: fullLink } )
       setFade(false)
     }, 1000)
     
   }, [ link ])
+
+  if (isInIframe) {
+    return <div className="dispenser-iframe">
+      <div
+        ref={qrRef}
+        className={
+          classname("qr-code", {
+            ['qr-code_fade']: fade
+          })
+        }
+      ></div>
+      <ProgressBar value={timer} maxValue={INTERVAL_TIME} />
+      <h1 className="dispenser__title">{window.appTitle || 'Scan to Claim'}</h1>
+      <Footer />
+    </div>
+  }
 
   return <div className='dispenser'>
     <div className="dispenser__content">
       <div
         ref={qrRef}
         className={
-          classname("dispenser__qr", {
-            ['dispenser__qr_fade']: fade
+          classname("qr-code", {
+            ['qr-code_fade']: fade
           })
         }
       ></div>
