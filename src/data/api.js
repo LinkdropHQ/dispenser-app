@@ -19,6 +19,14 @@ const getDispenserLink = (
   })
 }
 
+const getDispenserCampaignData = (
+  multiscanQRId,
+  api
+) => {
+  const serverUrl = defineApiURL(api)
+  return axios.get(`${serverUrl}/api/v2/dashboard/dispensers/multiscan-qrs/${multiscanQRId}/campaign`)
+}
+
 const getDispenserData = (
   multiscanQRId,
   api
@@ -29,5 +37,6 @@ const getDispenserData = (
 
 export {
   getDispenserLink,
-  getDispenserData
+  getDispenserData,
+  getDispenserCampaignData
 }

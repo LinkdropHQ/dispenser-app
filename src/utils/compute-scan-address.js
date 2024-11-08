@@ -1,7 +1,8 @@
 
 import { ethers } from 'ethers'
 import { createQueryString } from '../helpers'
-import { getDispenserData } from '../data/api'
+import { getDispenserData, getDispenserCampaignData } from '../data/api'
+import * as wccrypto from '@walletconnect/utils/dist/esm'
 
 export default async function computeScanAddress(
   qrSecret,
@@ -32,6 +33,28 @@ export default async function computeScanAddress(
         window.appTitle = app_title
       }
     }
+
+    const { data: campaignData } = await getDispenserCampaignData(
+      MULTISCAN_QR_ID,
+      api
+    )
+
+    const {
+      campaign,
+    } = campaignData
+
+    const {
+      redirect_url,
+      redirect_on
+    } = campaign
+
+    if (redirect_on && redirect_url) {
+      const decryptKey = ethers.utils.id(qrEncCode)
+      const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
+      window.location.href = linkDecrypted
+      return
+    }
+
     let redirectURL = ''
     const SCAN_ID = String(Math.random()).slice(2)
     
