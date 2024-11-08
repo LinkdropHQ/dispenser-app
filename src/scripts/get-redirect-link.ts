@@ -26,7 +26,21 @@ export default async function getLinkByMultiQR(
       api
     )
 
-    const { campaign } = campaignData
+    const {
+      campaign,
+    } = campaignData
+
+    const {
+      redirect_url,
+      redirect_on
+    } = campaign
+
+    if (redirect_on && redirect_url) {
+      const decryptKey = ethers.utils.id(multiscanQREncCode)
+      const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
+      window.location.href = linkDecrypted
+      return
+    }
 
     const tokenAddress = campaign.token_address
     const campaignConfig = customClaimAppsForToken[tokenAddress.toLowerCase()]
@@ -43,7 +57,6 @@ export default async function getLinkByMultiQR(
     if (success && encrypted_claim_link) {
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
-      console.log({ linkDecrypted, encrypted_claim_link })
 
       if (customDomain) {
         if (linkDecrypted.includes('https://wallet.coinbase.com')) {
