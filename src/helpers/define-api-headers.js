@@ -2,7 +2,7 @@ import { TApi } from '../types'
 import {
   devApiKey,
   apiKey
-} from '../../config'
+} from '../configs'
 
 
 const defineApiHeaders = (
