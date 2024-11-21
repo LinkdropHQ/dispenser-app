@@ -1,4 +1,3 @@
-import { TApi } from '../types'
 import {
   devApiKey,
   apiKey
