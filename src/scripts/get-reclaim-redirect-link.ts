@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
 import {
-  getMultiQRData,
-  getMultiQRCampaignData
+  popReclaimLink
 } from './api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
@@ -9,54 +8,19 @@ import { TError } from './types'
 import { TApi } from './types'
 import { customClaimApps, customClaimAppsForToken } from '../config'
 
-export default async function getLinkByMultiQR(
+export default async function getReclaimRedirectLink(
   multiscanQRId: string,
-  scanId: string,
-  scanIdSig: string,
+  reclaimSessionId: string,
   multiscanQREncCode: string,
   api: TApi,
   linkRedirectCallback?: (location: string) => void,
   errorCallback?: (error_name: TError) => void,
 ) {
   try {
-    let customDomain
-    const { data: campaignData } = await getMultiQRCampaignData(
+
+    const { data } = await popReclaimLink(
       multiscanQRId,
-      multiscanQREncCode,
-      api
-    )
-
-    const {
-      campaign,
-      reclaimOn,
-      reclaimVerificationURL
-    } = campaignData
-
-    if (reclaimOn) {
-      window.location.href = reclaimVerificationURL
-      return
-    }
-
-    const {
-      redirect_url,
-      redirect_on
-    } = campaign
-
-    if (redirect_on && redirect_url) {
-      const decryptKey = ethers.utils.id(multiscanQREncCode)
-      const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
-      window.location.href = linkDecrypted
-      return
-    }
-
-    const tokenAddress = campaign.token_address
-    const campaignConfig = customClaimAppsForToken[tokenAddress.toLowerCase()]
-    customDomain = campaignConfig
-
-    const { data } = await getMultiQRData(
-      multiscanQRId,
-      scanId,
-      scanIdSig,
+      reclaimSessionId,
       api
     )
 
@@ -65,22 +29,6 @@ export default async function getLinkByMultiQR(
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: encrypted_claim_link, symKey: decryptKey.replace('0x', '') })
 
-      if (customDomain) {
-        if (linkDecrypted.includes('https://wallet.coinbase.com')) {
-          const originalLink = new URL(linkDecrypted)
-          const linkParams = originalLink.searchParams
-          const code = linkParams.get('k')
-          const finalLink = `${customDomain}/#/redeem/${code}`
-          linkRedirectCallback && linkRedirectCallback(finalLink)
-          window.location.href = finalLink
-          return
-        } else {
-          const finalLink = `${customDomain}/${(new URL(linkDecrypted)).hash}`
-          linkRedirectCallback && linkRedirectCallback(finalLink)
-          window.location.href = finalLink
-          return
-        }
-      }
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
       window.location.href = linkDecrypted
     }

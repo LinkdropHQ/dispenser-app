@@ -1,6 +1,7 @@
 import { HashRoute, routeLocation, Router } from 'vanilla-routing'
 import computeScanAddress from './compute-scan-address'
 import getRedirectLink from './get-redirect-link'
+import getReclaimRedirectLink from './get-reclaim-redirect-link'
 import { TApi, TError } from './types'
 const templateLoading = document.getElementById("loader")
 const templateRedirect = document.getElementById("redirect")
@@ -57,13 +58,14 @@ const routes = [
     element: () => {
       content.innerHTML = ''
       const location = routeLocation()
-      const { params: { qrEncCode, qrSecret } }  = location
+      const { params: { qrEncCode, qrSecret } } = location
       computeScanAddress(
         qrSecret,
         qrEncCode,
         (location.search.api as TApi) || '',
         (redirectURL) => {
           content.innerHTML = ''
+          //console.log(redirectURL)
           Router.go(redirectURL)
         }
       )
@@ -81,7 +83,7 @@ const routes = [
         scanId,
         scanIdSig,
         multiscanQREncCode
-      }}  = location
+      } } = location
 
       getRedirectLink(
         multiscanQRId,
@@ -95,6 +97,49 @@ const routes = [
           const templateClone = templateRedirect.content.cloneNode(true).querySelector('.redirect')
           const link = templateClone.querySelector('.redirect__link')
           link.setAttribute('href', location)
+          console.log(location)
+          content.append(templateClone)
+        },
+        (error) => {
+          content.innerHTML = ''
+          const errorElement = createErrorScreen(
+            error
+          )
+          content.append(errorElement)
+        }
+      )
+
+      content.innerHTML = ''
+      // @ts-ignore
+      const templateClone = templateLoading.content.cloneNode(true).querySelector('.loader')
+      return templateClone
+    }
+  }, ,
+  {
+    pathname: '/reclaim/:multiscanQRId/:reclaimSessionId/:multiscanQREncCode/verification-complete',
+    element: () => {
+      content.innerHTML = ''
+      const location = routeLocation()
+      const { params: {
+        multiscanQRId,
+        reclaimSessionId,
+        multiscanQREncCode
+      } } = location
+
+      const reclaimProof = ""
+
+      getReclaimRedirectLink(
+        multiscanQRId,
+        reclaimSessionId,
+        multiscanQREncCode,
+        (location.search.api as TApi) || '',
+        (location) => {
+          content.innerHTML = ''
+          // @ts-ignore          
+          const templateClone = templateRedirect.content.cloneNode(true).querySelector('.redirect')
+          const link = templateClone.querySelector('.redirect__link')
+          link.setAttribute('href', location)
+          console.log(location)
           content.append(templateClone)
         },
         (error) => {

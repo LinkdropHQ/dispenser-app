@@ -22,9 +22,11 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
+    "@reclaimprotocol/js-sdk": "^2.1.2",
+    "@walletconnect/utils": "2.0.0-beta.100",
     "axios": "^1.6.8",
     "ethers": "^5.5.1",
-    "vanilla-routing": "^0.0.4",
-    "@walletconnect/utils": "2.0.0-beta.100"
-  }
+    "vanilla-routing": "^0.0.4"
+  },
+  "proxy": "http://localhost:3000"
 }

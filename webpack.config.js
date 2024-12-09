@@ -9,6 +9,7 @@ module.exports = (env, argv) => {
     mode: argv.mode,
     devServer: {
       port: 3000,
+      allowedHosts: ['.ngrok-free.app'], // Allow all subdomains of ngrok.io
     },
     performance: {
       hints: false
