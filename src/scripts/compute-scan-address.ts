@@ -10,6 +10,7 @@ export default async function computeScanAddress(
   callback: (location: string) => void
 ) {
   try {
+    window.localStorage.setItem('initial_url', window.location.hash)
     const linkKey = ethers.utils.id(qrSecret)
     const qrKeysPair = new ethers.Wallet(linkKey)
     const MULTISCAN_QR_ID = qrKeysPair.address.toLowerCase()
