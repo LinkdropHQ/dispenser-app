@@ -8,7 +8,7 @@ import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 import { TError } from './types'
 import { TApi } from './types'
-import { customClaimApps, customClaimAppsForToken } from '../config'
+import { devClaimAppUrl, customClaimAppsForToken, claimAppUrl } from '../config'
 
 export default async function getLinkByMultiQR(
   multiscanQRId: string,
@@ -32,9 +32,17 @@ export default async function getLinkByMultiQR(
 
     const {
       redirect_url,
-      redirect_on
+      redirect_on,
+      whitelist_on
     } = campaign
 
+    if (whitelist_on) {
+      const claimAppUrlRedirect = api === 'dev' ? devClaimAppUrl : claimAppUrl
+      const hash = window.localStorage.getItem('initial_url')
+
+      window.location.href = `${claimAppUrlRedirect}/${hash}`
+    }
+  
     if (redirect_on && redirect_url) {
       const decryptKey = ethers.utils.id(multiscanQREncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
