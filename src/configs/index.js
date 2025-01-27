@@ -2,5 +2,5 @@ export const dashboardServerUrl = 'https://dashboard-api.linkdrop.io'
 export const devDashboardServerUrl = 'https://linkdrop-api-staging-715c814.zuplo.app'
 export const testnetsDashboardServerUrl = 'https://testnets.dashboard-api.linkdrop.io'
 
-export const devApiKey = 'zpka_1365718c556e4f28904657c528730556_3f9a6532'
-export const apiKey = 'zpka_907ffc120f0e4491a75a6c55aa93a65a_4b20a148'
+export const devApiKey = 'zpka_c8cbb388a0b648629560df13fd1328f2_2c7ec1a1'
+export const apiKey = 'zpka_e6f0cd39ce9c4170b0a3ca211ae4c970_41fe8dea'
