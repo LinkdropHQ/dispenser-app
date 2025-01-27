@@ -5,8 +5,8 @@ export const testnetsDashboardServerUrl = 'https://testnets.dashboard-api.linkdr
 export const devClaimAppUrl = 'https://dev.claim.linkdrop.io'
 export const claimAppUrl = 'https://claim.linkdrop.io'
 
-export const devApiKey = 'zpka_1365718c556e4f28904657c528730556_3f9a6532'
-export const apiKey = 'zpka_25a34f93d60440229a85b206b8b9cd14_3695452f'
+export const devApiKey = 'zpka_c8cbb388a0b648629560df13fd1328f2_2c7ec1a1'
+export const apiKey = 'zpka_e6f0cd39ce9c4170b0a3ca211ae4c970_41fe8dea'
 
 type TCustomClaimApps = Record<string, string>
 
