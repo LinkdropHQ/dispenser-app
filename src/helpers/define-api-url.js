@@ -1,17 +1,17 @@
-import {
-  dashboardServerUrl,
-  devDashboardServerUrl,
-  testnetsDashboardServerUrl
-} from "../configs"
+const {
+  REACT_APP_API_URL_PROD,
+  REACT_APP_API_URL_DEV,
+  REACT_APP_API_URL_TESTNETS
+} = process.env
 
 const defineApiURL = (apiType) => {
   switch (apiType) {
     case 'dev':
-      return devDashboardServerUrl
+      return REACT_APP_API_URL_DEV
     case 'testnets':
-      return testnetsDashboardServerUrl
+      return REACT_APP_API_URL_TESTNETS
     default:
-      return dashboardServerUrl
+      return REACT_APP_API_URL_PROD
   }
 }
 
