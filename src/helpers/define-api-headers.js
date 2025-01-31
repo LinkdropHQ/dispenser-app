@@ -1,8 +1,7 @@
-import {
-  devApiKey,
-  apiKey
-} from '../configs'
-
+const {
+  REACT_APP_API_KEY_DEV,
+  REACT_APP_API_KEY_PROD
+} = process.env
 
 const defineApiHeaders = (
   api
@@ -10,9 +9,9 @@ const defineApiHeaders = (
   const headers = {}
 
   if (api === 'dev') {
-    headers['authorization'] = `Bearer ${devApiKey}`
+    headers['authorization'] = `Bearer ${REACT_APP_API_KEY_DEV}`
   } else {
-    headers['authorization'] = `Bearer ${apiKey}`
+    headers['authorization'] = `Bearer ${REACT_APP_API_KEY_PROD}`
   }
 
   return headers
