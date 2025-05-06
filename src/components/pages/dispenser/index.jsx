@@ -88,7 +88,6 @@ const DispenserPage = () => {
   }, [])
 
   useEffect(() => {
-    console.log({ REACT_APP_SOCKET_URL })
     const socket = io(REACT_APP_SOCKET_URL, {
       reconnectionDelayMax: 10000
     })
@@ -103,7 +102,6 @@ const DispenserPage = () => {
     })
 
     socketObject.on("successful_scan", (socketId) => {
-      console.log({ socketId })
       if (socketObject && socketId === socketObject.id) {
         setSocketLastScan(+new Date())
       }
@@ -169,7 +167,6 @@ const DispenserPage = () => {
 
     setFade(true)
     setTimeout(() => {
-      console.log({ link })
       qrCode.update({ data: link } )
       setFade(false)
     }, 1000)

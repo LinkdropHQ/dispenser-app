@@ -39,8 +39,6 @@ export default async function computeScanAddress(
       api
     )
 
-    console.log({ campaignData })
-
     const {
       campaign,
     } = campaignData
