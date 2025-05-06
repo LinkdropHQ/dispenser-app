@@ -88,7 +88,6 @@ const DispenserPage = () => {
   }, [])
 
   useEffect(() => {
-    console.log({ REACT_APP_SOCKET_URL })
     const socket = io(REACT_APP_SOCKET_URL, {
       reconnectionDelayMax: 10000
     })
@@ -103,7 +102,6 @@ const DispenserPage = () => {
     })
 
     socketObject.on("successful_scan", (socketId) => {
-      console.log({ socketId })
       if (socketObject && socketId === socketObject.id) {
         setSocketLastScan(+new Date())
       }
@@ -118,9 +116,19 @@ const DispenserPage = () => {
         qrEncCodeInitial,
         defineApiParam(location.search),
         socketObject ? socketObject.id : null,
-        (redirectURL) => {
-          // history.push(redirectURL)
-          setLink(redirectURL)
+        (
+          redirectURL,
+          wallet
+        ) => {
+          const fullLink = `${window.location.origin}/#${redirectURL}`
+          if (wallet === 'coinbase_wallet') {
+            // const fullLink = `https://dynamic-qr.linkdrop.io${redirectURL}`
+            const encodedLink = encodeURIComponent(fullLink)
+            const deeplink = `https://go.cb-w.com/dapp?cb_url=${encodedLink}`
+            setLink(deeplink)
+          } else {
+            setLink(fullLink)
+          }
           setTimer(INTERVAL_TIME)
         }
       )
@@ -158,9 +166,8 @@ const DispenserPage = () => {
     }
 
     setFade(true)
-    const fullLink = `${window.location.origin}/#${link}`
     setTimeout(() => {
-      qrCode.update({ data: fullLink } )
+      qrCode.update({ data: link } )
       setFade(false)
     }, 1000)
     
