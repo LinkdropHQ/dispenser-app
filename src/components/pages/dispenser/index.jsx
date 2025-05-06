@@ -22,7 +22,7 @@ import { io } from "socket.io-client"
 const isInIframe = isIframe()
 const { REACT_APP_SOCKET_URL } = process.env
 
-const INTERVAL_TIME = 5000
+const INTERVAL_TIME = 15000
 
 const defineQrOptions = (
   client,
@@ -48,7 +48,7 @@ const defineQrOptions = (
       type: 'square'
     },
     dotsOptions: {
-      color: "#9D9D9D",
+      color: "#3C3C3C",
       type: "dots"
     },
     backgroundOptions: {
