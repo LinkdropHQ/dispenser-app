@@ -39,13 +39,16 @@ export default async function computeScanAddress(
       api
     )
 
+    console.log({ campaignData })
+
     const {
       campaign,
     } = campaignData
 
     const {
       redirect_url,
-      redirect_on
+      redirect_on,
+      wallet
     } = campaign
 
     if (redirect_on && redirect_url) {
@@ -67,7 +70,10 @@ export default async function computeScanAddress(
       api, socket_id: socketId 
     })
     redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?${queryParams}`
-    callback(redirectURL)
+    callback(
+      redirectURL,
+      wallet
+    )
   } catch (err) {
     alert('Some error occured. Please check console for info!')
     console.error(err)
