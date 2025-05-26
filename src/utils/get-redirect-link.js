@@ -73,6 +73,8 @@ export default async function getRedirectLink(
           errorCallback('qr_campaign_not_active')
         } else if (data.errors.includes("RECEIVER_NOT_WHITELISTED")) {
           errorCallback('qr_campaign_not_eligible')
+        } else if (data.errors.includes("RECEIVER_ALREADY_CLAIMED")) {
+          errorCallback('qr_already_claimed')
         } else {
           errorCallback('qr_error')
         }
