@@ -40,6 +40,9 @@ const createErrorScreen = (
     case 'qr_no_links_to_share':
       titleElement.innerText = 'No links to share'
       break
+    case 'qr_already_claimed':
+      titleElement.innerText = 'Link was already claimed by the user'
+      break
     case 'qr_not_found':
       titleElement.innerText = 'Asset does not exist'
       break
