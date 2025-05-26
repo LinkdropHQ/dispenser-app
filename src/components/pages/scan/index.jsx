@@ -24,6 +24,8 @@ const defineErrorScreenTitle = (error) => {
       return 'No links to share'
     case 'qr_not_found':
       return 'Asset does not exist'
+    case 'qr_already_claimed':
+      return 'Link was already claimed by the user'
     default:
       return 'Something went wrong'
   }
