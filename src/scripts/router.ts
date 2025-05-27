@@ -38,7 +38,7 @@ const createErrorScreen = (
       titleElement.innerText = 'Seems you\'re offline'
       break
     case 'qr_no_links_to_share':
-      titleElement.innerText = 'No links to share'
+      titleElement.innerText = 'All links are claimed or reserved'
       break
     case 'qr_already_claimed':
       titleElement.innerText = 'The link has been claimed'
