@@ -21,7 +21,7 @@ const defineErrorScreenTitle = (error) => {
     case 'qr_no_connection':
       return 'Seems you\'re offline'
     case 'qr_no_links_to_share':
-      return 'No links to share'
+      return 'All links are claimed or reserved'
     case 'qr_not_found':
       return 'Asset does not exist'
     case 'qr_already_claimed':
