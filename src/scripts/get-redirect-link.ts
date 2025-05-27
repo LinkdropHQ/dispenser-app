@@ -19,8 +19,12 @@ export default async function getLinkByMultiQR(
   linkRedirectCallback?: (location: string) => void,
   errorCallback?: (error_name: TError) => void,
 ) {
+  let customDomain
+  let redirectUrl
+  let redirectOn
+  
   try {
-    let customDomain
+    
     const { data: campaignData } = await getMultiQRCampaignData(
       multiscanQRId,
       api
@@ -36,6 +40,9 @@ export default async function getLinkByMultiQR(
       whitelist_on
     } = campaign
 
+    redirectOn = redirect_on
+    redirectUrl = redirect_url
+
     if (whitelist_on) {
       const claimAppUrlRedirect = api === 'dev' ? devClaimAppUrl : claimAppUrl
       const hash = window.localStorage.getItem('initial_url')
@@ -43,12 +50,6 @@ export default async function getLinkByMultiQR(
       window.location.href = `${claimAppUrlRedirect}/${hash}`
     }
   
-    if (redirect_on && redirect_url) {
-      const decryptKey = ethers.utils.id(multiscanQREncCode)
-      const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
-      window.location.href = linkDecrypted
-      return
-    }
 
     const tokenAddress = campaign.token_address
     const campaignConfig = customClaimAppsForToken[tokenAddress.toLowerCase()]
@@ -106,6 +107,12 @@ export default async function getLinkByMultiQR(
         } else if (data.error.includes("Claim has not started yet.")) {
           errorCallback('qr_campaign_not_started')
         } else if (data.error.includes("No more claims available.")) {
+          if (redirectOn && redirectUrl) {
+            const decryptKey = ethers.utils.id(multiscanQREncCode)
+            const linkDecrypted = wccrypto.decrypt({ encoded: redirectUrl, symKey: decryptKey.replace('0x', '') })
+            window.location.href = linkDecrypted
+            return
+          }
           errorCallback('qr_no_links_to_share')
         } else if (data.error.includes("Dispenser is not active")) {
           errorCallback('qr_campaign_not_active')
