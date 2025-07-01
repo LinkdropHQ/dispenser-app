@@ -9,6 +9,7 @@ import axios from 'axios'
 import { TError } from './types'
 import { TApi } from './types'
 import { devClaimAppUrl, customClaimAppsForToken, claimAppUrl } from '../config'
+import { transferQueryParams } from './helpers'
 
 export default async function getLinkByMultiQR(
   multiscanQRId: string,
@@ -83,7 +84,8 @@ export default async function getLinkByMultiQR(
           return
         }
       }
-      linkRedirectCallback && linkRedirectCallback(linkDecrypted)
+      const transferedQueryParams = transferQueryParams(window.location.href, linkDecrypted)
+      linkRedirectCallback && linkRedirectCallback(transferedQueryParams)
       window.location.href = linkDecrypted
     }
   } catch (err: any ) {
@@ -110,7 +112,8 @@ export default async function getLinkByMultiQR(
           if (redirectOn && redirectUrl) {
             const decryptKey = ethers.utils.id(multiscanQREncCode)
             const linkDecrypted = wccrypto.decrypt({ encoded: redirectUrl, symKey: decryptKey.replace('0x', '') })
-            window.location.href = linkDecrypted
+            const transferedQueryParams = transferQueryParams(window.location.href, linkDecrypted)
+            window.location.href = transferedQueryParams
             return
           }
           errorCallback('qr_no_links_to_share')
