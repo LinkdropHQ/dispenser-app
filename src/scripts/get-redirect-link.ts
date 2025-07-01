@@ -86,7 +86,7 @@ export default async function getLinkByMultiQR(
       }
       const transferedQueryParams = transferQueryParams(window.location.href, linkDecrypted)
       linkRedirectCallback && linkRedirectCallback(transferedQueryParams)
-      window.location.href = linkDecrypted
+      window.location.href = transferedQueryParams
     }
   } catch (err: any ) {
     if (axios.isAxiosError(err)) {
