@@ -1,6 +1,9 @@
 
 import { ethers } from 'ethers'
-import { checkIfMultiscanIsPresented } from './helpers'
+import {
+  checkIfMultiscanIsPresented,
+  transferQueryParams
+} from './helpers'
 import { TApi } from './types'
 
 export default async function computeScanAddress(
@@ -29,11 +32,14 @@ export default async function computeScanAddress(
         scanIDSig: SCAN_ID_SIG
       }))
       redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}${params}`
-      callback(redirectURL)
+      const transferedQueryParams = transferQueryParams(window.location.href, redirectURL)
+
+      callback(transferedQueryParams)
     } else {
       const { scanID: SCAN_ID, scanIDSig: SCAN_ID_SIG } = inLocalStorage
       redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}${params}`
-      callback(redirectURL)
+      const transferedQueryParams = transferQueryParams(window.location.href, redirectURL)
+      callback(transferedQueryParams)
     }
   } catch (err: any) {
     alert('Some error occured. Please check console for info!')
