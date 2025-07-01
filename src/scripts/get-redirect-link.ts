@@ -83,6 +83,7 @@ export default async function getLinkByMultiQR(
           return
         }
       }
+      console.log('claim link', { linkDecrypted })
       linkRedirectCallback && linkRedirectCallback(linkDecrypted)
       window.location.href = linkDecrypted
     }
@@ -110,6 +111,8 @@ export default async function getLinkByMultiQR(
           if (redirectOn && redirectUrl) {
             const decryptKey = ethers.utils.id(multiscanQREncCode)
             const linkDecrypted = wccrypto.decrypt({ encoded: redirectUrl, symKey: decryptKey.replace('0x', '') })
+            console.log('redirect: ', { linkDecrypted })
+
             window.location.href = linkDecrypted
             return
           }
