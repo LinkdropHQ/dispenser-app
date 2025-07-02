@@ -1,6 +1,6 @@
 
 import { ethers } from 'ethers'
-import { createQueryString } from '../helpers'
+import { createQueryString, transferQueryParams } from '../helpers'
 import { getDispenserData, getDispenserCampaignData } from '../data/api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 
@@ -12,7 +12,6 @@ export default async function computeScanAddress(
   callback
 ) {
   try {
-
 
     const linkKey = ethers.utils.id(qrSecret)
     const qrKeysPair = new ethers.Wallet(linkKey)
@@ -51,7 +50,7 @@ export default async function computeScanAddress(
     if (redirect_on && redirect_url) {
       const decryptKey = ethers.utils.id(qrEncCode)
       const linkDecrypted = wccrypto.decrypt({ encoded: redirect_url, symKey: decryptKey.replace('0x', '') })
-      window.location.href = linkDecrypted
+      window.location.href = transferQueryParams(window.Location.href, linkDecrypted)
       return
     }
 
@@ -66,7 +65,7 @@ export default async function computeScanAddress(
     const queryParams = createQueryString({
       api, socket_id: socketId 
     })
-    redirectURL = `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?${queryParams}`
+    redirectURL = transferQueryParams(window.Location.href, `/scan/${MULTISCAN_QR_ID}/${SCAN_ID}/${SCAN_ID_SIG}/${qrEncCode}?${queryParams}`)
     callback(redirectURL)
   } catch (err) {
     alert('Some error occured. Please check console for info!')
