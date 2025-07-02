@@ -4,7 +4,10 @@ import { getDispenserLink } from '../data/api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 
-import { checkIfMultiscanIsPresented } from '../helpers'
+import {
+  checkIfMultiscanIsPresented,
+  transferQueryParams
+} from '../helpers'
 
 
 export default async function getRedirectLink(
@@ -20,9 +23,10 @@ export default async function getRedirectLink(
   try {
     const inLocalStorage = checkIfMultiscanIsPresented(multiscanQRId)
     if (inLocalStorage) {
-      linkRedirectCallback && linkRedirectCallback(inLocalStorage)
-      window.location.href = inLocalStorage
-      return 
+      const link = transferQueryParams(window.location.href, inLocalStorage)
+      linkRedirectCallback && linkRedirectCallback(link)
+      window.location.href = link
+      return
     }
 
     
@@ -43,9 +47,9 @@ export default async function getRedirectLink(
       const scansData = scans ? JSON.parse(scans) : {}
       scansData[multiscanQRId.toLowerCase()] = linkDecrypted
       window.localStorage.setItem('scans', JSON.stringify(scansData))
-
-      linkRedirectCallback && linkRedirectCallback(linkDecrypted)
-      window.location.href = linkDecrypted
+      const link = transferQueryParams(window.location.href, linkDecrypted)
+      linkRedirectCallback && linkRedirectCallback(link)
+      window.location.href = link
     }
   } catch (err ) {
     if (axios.isAxiosError(err)) {
