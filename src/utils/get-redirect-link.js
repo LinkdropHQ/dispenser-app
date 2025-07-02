@@ -4,7 +4,10 @@ import { getDispenserLink } from '../data/api'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import axios from 'axios'
 
-import { checkIfMultiscanIsPresented } from '../helpers'
+import {
+  checkIfMultiscanIsPresented,
+  transferQueryParams
+} from '../helpers'
 
 
 export default async function getRedirectLink(
