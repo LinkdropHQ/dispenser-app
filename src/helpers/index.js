@@ -5,7 +5,6 @@ import createQueryString from './create-query-string'
 import defineSocketIdParam from './define-socket-id-param'
 import isIframe from './is-iframe'
 import defineApiHeaders from './define-api-headers'
-import transferQueryParams from './transfer-query-params'
 
 export {
   checkIfMultiscanIsPresented,
@@ -14,6 +13,5 @@ export {
   createQueryString,
   defineSocketIdParam,
   isIframe,
-  defineApiHeaders,
-  transferQueryParams
+  defineApiHeaders
 }
