@@ -119,7 +119,10 @@ export default async function getLinkByMultiQR(
           errorCallback('qr_no_links_to_share')
         } else if (data.error.includes("Dispenser is not active")) {
           errorCallback('qr_campaign_not_active')
-        } else if (data.errors.includes("RECEIVER_NOT_WHITELISTED")) {
+        } else if (
+          data.errors.includes("RECEIVER_NOT_WHITELISTED") ||
+          data.errors.includes("MULTIPLE_CLAIMS_FORBIDDEN")
+        ) {
           errorCallback('qr_campaign_not_eligible')
         } else if (data.errors.includes("RECEIVER_ALREADY_CLAIMED")) {
           errorCallback('qr_already_claimed')
